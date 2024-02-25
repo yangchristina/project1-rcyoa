@@ -121,7 +121,6 @@ chooseStartWorld =
 go :: String -> Player -> IO Results
 go key player =
   do
-    let (Player startWorldKey storyWorldKey inventory) = player
     let (ScenarioOutcome desc choices) = getScenario key
     idx <- askScenario (ScenarioOutcome desc choices)
     let (PlayerChoice _ _ points) = choices !! idx
