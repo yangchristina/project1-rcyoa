@@ -6,8 +6,7 @@ import Random (chooseFromWeightedList)
 import Story
 import Types (PlayerChoice (PlayerChoice), ScenarioOutcome (ScenarioOutcome), StartWorld (StartWorld), Player (Player), Results(Results))
 import Control.Monad.Random (randomRIO)
-import Data.Map qualified as Map (fromList, lookup, keys)
-import Data.Map.Internal as Internal (Map)
+import Data.Map qualified as Map (lookup, keys)
 import System.IO
 import Prelude hiding (lookup)
 -- import qualified Data.List.NonEmpty as Map
@@ -127,11 +126,11 @@ go key player =
     idx <- askScenario (ScenarioOutcome desc choices)
     let (PlayerChoice _ _ points) = choices !! idx
     nextScenarioKey <- chooseNext (choices !! idx)
-    -- if the next scenario has the key "end" or "*" then return results, with the (end) total number of points 
-    if (nextScenarioKey == "end" || nextScenarioKey == "*") 
+    -- if the next scenario has the key "end" or "*" then return results, with the (end) total number of points
+    if (nextScenarioKey == "end" || nextScenarioKey == "*")
       then do
         return (Results points nextScenarioKey)
-    --   else show the player choices corresponding to the scenario, initialize next scenario, returning results adding the number of points from each choice recursively 
+    --   else show the player choices corresponding to the scenario, initialize next scenario, returning results adding the number of points from each choice recursively
       else do
         (Results addPoints rEndKey) <- go nextScenarioKey player
         let totalPoints = points + addPoints

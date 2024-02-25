@@ -19,19 +19,19 @@ normalize lst = [(y / total) | (y) <- lst]
 
 -- Ask for an integer input, and repeat until a valid integer is given
 askIntInRange :: (Int, Int) -> IO Int
-askIntInRange (min, max) =
+askIntInRange (minV, maxV) =
   do
     input <- getLine
     case readMaybe input of
       Just ans -> do
-        if ans < min || ans > max
+        if ans < minV || ans > maxV
           then do
             putStrLn "Invalid input, try again."
-            askIntInRange (min, max)
+            askIntInRange (minV, maxV)
           else return ans
       Nothing -> do
         putStrLn "That's not an integer. Please try again."
-        askIntInRange (min, max)
+        askIntInRange (minV, maxV)
 
 -- Allow deleting characters in the terminal
 fixdel :: String -> String
