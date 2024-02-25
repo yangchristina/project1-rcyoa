@@ -83,7 +83,7 @@ showEnd points startWorldKey endKey =
   do
     let (StartWorld _ results _) = getStartWorld startWorldKey
     if (endKey == "*")
-      then do 
+      then do
         showStayEnd
     else if (points >= 70)
       then do
@@ -94,7 +94,7 @@ showEnd points startWorldKey endKey =
         putStrLn("What happened? The butterflies have begun to doubt your loyalty. From the corner of your eye, you see the frog monarch begin to move. All of a sudden, you are swept up and blown away by a strong gust of wind. When you open your eyes, you find yourself sitting in the real world, with an uneasy feeling...")
         putStrLn (results !! 2)
     else
-      do 
+      do
         putStrLn("With this valient effort, your story in the land of butterflies has come to an end, and as a reward the butterflies have decided to send you back to your own world. \nDisoriented and bewildered, you wake up in your own bed, wondering if what you experienced was just a dream. However, the butterflies' last words ring in your ears, \"Depending on your effort, we will bestow upon you an equivalent reward.\" \nWith a mix of anticipation and fear, you find that...")
         putStrLn (results !! 1)
     return ()
@@ -126,7 +126,7 @@ go key player =
     idx <- askScenario (ScenarioOutcome desc choices)
     let (PlayerChoice _ _ points) = choices !! idx
     nextScenarioKey <- chooseNext (choices !! idx)
-    if (nextScenarioKey == "end" || nextScenarioKey == "*") 
+    if (nextScenarioKey == "end" || nextScenarioKey == "*")
       then do
         return (Results points nextScenarioKey)
       else do
@@ -145,14 +145,3 @@ startGame = do
   showEnd points startWorldKey endKey
   putStrLn $ "Points: " ++ show points
   putStrLn ("Thanks for playing!")
-
--- randomNumber <- randomRIO (1, 3) :: IO Int
--- putStrLn $ "Random number: " ++ show randomNumber
-
--- putStrLn "0    <- quit"
--- putStrLn "1    <- Hello"
--- putStrLn "Choose an option: "
--- c <- getChar
--- case c of
---   '0' -> return ()
---   '1' -> putChar '\n' >> putStrLn "Hello StartWorld" >> startGame
