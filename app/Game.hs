@@ -77,7 +77,7 @@ askScenario (ScenarioOutcome desc choices) =
     putStrLn ("You choose: " ++ desc2 ++ "\n")
     return idx
 
--- given the number points, the key of the startWorld, and the key of the ending, end the game, showing the ending corresponding to number of points and startWorld of the player
+-- given the number points, the key of the startWorld, and the key of the ending, end the game, show the ending corresponding to number of points and startWorld of the player
 showEnd :: Int -> String -> String -> IO ()
 showEnd points startWorldKey endKey =
   do
@@ -106,6 +106,7 @@ showStayEnd =
     putStrLn("You've successfully avoided job search. You spend your days frolicking around with butterflies. But when will you get back to reality?")
     return ()
 
+-- choose random startWorld (then give user initial scenario), then return player with key of startWorld and key of storyWorld and empty inventory (for future use)
 chooseStartWorld :: IO Player
 chooseStartWorld =
   do
@@ -118,6 +119,7 @@ chooseStartWorld =
     storyWorldKey <- chooseFromWeightedList allStoryWorldKeys nprobs
     return (Player startWorldKey storyWorldKey [])
 
+-- given a scenario key and a player, generate next scenario
 go :: String -> Player -> IO Results
 go key player =
   do
@@ -126,9 +128,11 @@ go key player =
     idx <- askScenario (ScenarioOutcome desc choices)
     let (PlayerChoice _ _ points) = choices !! idx
     nextScenarioKey <- chooseNext (choices !! idx)
-    if (nextScenarioKey == "end" || nextScenarioKey == "*")
+    -- if the next scenario has the key "end" or "*" then return results, with the (end) total number of points 
+    if (nextScenarioKey == "end" || nextScenarioKey == "*") 
       then do
         return (Results points nextScenarioKey)
+    --   else show the player choices corresponding to the scenario, initialize next scenario, returning results adding the number of points from each choice recursively 
       else do
         (Results addPoints rEndKey) <- go nextScenarioKey player
         let totalPoints = points + addPoints
